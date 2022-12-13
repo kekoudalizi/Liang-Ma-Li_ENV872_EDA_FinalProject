@@ -1,0 +1,108 @@
+---
+title: "Final_project"
+author: "Dili Li"
+date: "2022-12-06"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+getwd()
+setwd("~/Desktop/R project")
+#install.packages("reshape2")
+library(rvest)
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+library(cowplot)
+library(ggplot2)
+library(reshape2)
+mytheme <- theme_classic() +
+  theme(axis.text = element_text(color = "black"), legend.position = "top")
+theme_set(mytheme)
+```
+# load your database
+```{r pressure, echo=FALSE}
+carbon_dioxide_emissions <- read.csv('statistic_id183943_carbon-dioxide-emissions-in-the-united-states-1975-2021.csv', stringsAsFactors = TRUE) 
+
+colnames(carbon_dioxide_emissions) <- c('Year','emission') 
+ 
+carbon_dioxide_emissions_percapita <- read.csv('statistic_id1049662_us-per-capita-carbon-dioxide-emissions-1970-2020.csv', stringsAsFactors = TRUE) 
+  colnames(carbon_dioxide_emissions_percapita) <- c('Year','emission') 
+  
+Greenhousegas_emission_sector <- read.csv('us-greenhouse-gas-emissions-1990-2020-by-inventory-sector.csv', header = TRUE,stringsAsFactors = TRUE)
+
+Urbanization_rate <- read.csv('urbanization-in-US-1790-to-2050.csv',header = TRUE, stringsAsFactors = TRUE) 
+
+
+#colnames(Greenhousegas_emission_sector) <- c('Year','emission')
+```
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+#green gas emission
+```{r}
+plot1 <- ggplot(data = carbon_dioxide_emissions, 
+               aes(x =  Year, 
+                   y = as.numeric(emission))) +
+  geom_line()+
+  labs(title = "Total Carbon Dioxide Emissions in U.S")+
+       xlab("Year")+
+       ylab("Total Carbon Dioxide Emissions(Metric Tons)")
+  theme(axis.text.x = element_text(angle = 90))
+print(plot1)
+
+```
+
+## Including Plots
+#
+```{r pressure, echo=FALSE}
+
+plot2 <- ggplot(data = carbon_dioxide_emissions_percapita, 
+               aes(x =  Year, 
+                   y = as.numeric(emission))) +
+  
+  geom_line()+
+  labs(title = "Total Carbon Dioxide Emissions Per Capita in U.S")+
+       xlab("Year")+
+       ylab("Total Carbon Dioxide Emissions Per Capita (Metric Tons)")
+  theme(axis.text.x = element_text(angle = 90))
+print(plot2)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+sector emission
+```{r pressure, echo=FALSE}
+plot3 <- ggplot(data = Greenhousegas_emission_sector, 
+               aes(x =  Year, 
+                   y = as.numeric(sum), , fill = Name)) +
+  geom_bar()+
+  labs(title = "Total Carbon Dioxide Emissions in U.S")+
+       xlab("Year")+
+       ylab("Total Carbon Dioxide Emissions  (Metric Tons)")+
+  scale_fill_manual(values = c("red", "blue", "green","darkgreen","black"))+
+  theme(axis.text.x = element_text(angle = 90))
+print(plot3)
+```
+
+urbanization rate
+```{r pressure, echo=FALSE}
+plot4 <- ggplot(data = Urbanization_rate, 
+               aes(x =  Year, 
+                   y = as.numeric(Urban), group = 1)) +
+  
+  geom_line()+
+  labs(title = "Urbanization Rate in the U.S")+
+       xlab("Year")+
+       ylab("Urbanization Rate (Pencentage)")+
+  theme(axis.text.x = element_text(angle = 90))
+print(plot4)
+```
+
+
+#relationship analysis
+```{r pressure, echo=FALSE}
+
+```

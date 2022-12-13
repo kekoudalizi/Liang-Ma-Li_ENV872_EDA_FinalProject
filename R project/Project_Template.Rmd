@@ -1,0 +1,165 @@
+---
+output: 
+  pdf_document:
+    keep_tex: yes
+    fig_caption: yes
+    number_sections: yes
+geometry: margin=2.54cm
+title: "Insert title of project here"
+subtitle: "Web address for GitHub repository"
+author: "Name"
+fontsize: 12pt
+mainfont: Times New Roman
+
+---
+
+\newpage
+\tableofcontents 
+\newpage
+\listoftables 
+\newpage
+\listoffigures 
+\newpage
+
+```{r setup, include=FALSE}
+# Set your working directory
+getwd()
+setwd('c:/Users/Jiawei Liang/Documents/EDA-Fall2022/Project/RawData/')
+# Load your packages
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+library(cowplot)
+library(ggplot2)
+library(reshape2)
+# Set your ggplot theme
+theme_default <- theme_set(theme_bw())
+theme_set(theme_default)
+# Load your datasets
+major_source <- read.csv('consumption-major-source.csv', stringsAsFactors = TRUE)
+natural_gas_production <- read.csv('natural_gas_productionus.csv', stringsAsFactors = TRUE)
+US_Carbon_emission <- read.csv('united-states-carbon-co2-emissions.csv', stringsAsFactors = TRUE)
+Energy_consumption_sector<- read.csv('primary-energy-consumption.csv', stringsAsFactors = TRUE)
+Electricpowercarbonemissions<- read.csv('emissionfueltype.csv', stringsAsFactors = TRUE)
+Newdata <- read.csv("Newdata.csv")
+electricitygeneration<- read.csv('electricity-generation.csv', stringsAsFactors = FALSE)
+electricitygeneration$Year <-as.numeric(as.character(electricitygeneration$Year)) 
+```
+
+
+# Rationale and Research Questions
+
+
+
+\newpage
+
+# Dataset Information
+
+
+
+\newpage
+
+# Exploratory Analysis 
+
+Q1: The change of the emissions in US. 
+```{r}
+ggplot() +
+  theme_bw() +
+  geom_segment(data = US_Carbon_emission, 
+               aes(x =  Date, 
+                   y = Total, 
+                   xend = Date, 
+                   yend = -30), 
+               size = 4, 
+               colour =  " orange")+
+      scale_y_continuous(breaks=c(1e+06,2e+06,3e+06,4e+06,5e+06,6e+06))+
+  scale_x_continuous(breaks=seq(1991,2020,2) )+
+  labs(title = "Total Greenhouse Gas Emissions in U.S")+
+       xlab("Year")+
+       ylab("Total Carbon Emissions(Metric Tons)")
+       
+```
+per
+```{r}
+carbon_emissions_per_capita <- ggplot(US_Carbon_emission) +
+  geom_line(aes(x = Date, y = Per.Capita),colour="blue")+
+  scale_x_continuous(breaks=seq(1990,2021,2) )+
+   xlab("Year")+
+       ylab("Emission in Ton")+
+  labs(title = "Carbon emissions per capita in U.S")
+print(carbon_emissions_per_capita)
+```
+
+
+
+Energy structure:
+```{r}
+Energy_Structure <- ggplot( major_source, aes(x=Year,y=Consumption, fill = Source ))+
+  scale_x_continuous(breaks=seq(1990,2021,2) )+
+  labs(title = "Major Source Consumption in U.S")+
+  xlab("Year")+
+       ylab("Consumption in quadrillion Btu")+
+  geom_area()
+  
+print(Energy_Structure)
+```
+gas production:
+```{r}
+Gas_production <- ggplot(natural_gas_production) +
+  geom_line(aes(x = Year, y = Production))+
+  scale_x_continuous(breaks=seq(1998,2021,2) )+
+   xlab("Year")+
+       ylab("Consumption in tens of billions cubic")+
+  labs(title = "Consumption of natural gas in the United States")
+print(Gas_production)
+ 
+```
+which sector use more energy
+```{r}
+Energy_Structure <- ggplot( Energy_consumption_sector, aes(x=Year,y=Consumption, fill = Sector ))+
+  scale_x_continuous(breaks=seq(1990,2020,5) )+
+  labs(title = "Primary energy consumption in the United States")+
+       xlab("Year")+
+       ylab("Consumption in quadrillion Btu")+
+  geom_area()
+print(Energy_Structure)
+```
+Electric power emissions
+```{r}
+  
+ggplot(electricitygeneration,aes(x=Year, y=Generation,fill=Type))+
+ geom_area(stat="identity",position = 'stack')
+
+
+
+```
+
+```{r}
+ggplot(electricitygeneration,aes(x=Year, y=Generation,fill=Type))+
+ geom_bar(stat="identity",position = 'stack')
+
+```
+
+
+\newpage
+
+# Analysis
+
+
+
+## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
+
+## Question 2: 
+
+
+
+
+\newpage
+
+# Summary and Conclusions
+
+
+\newpage
+
+# References
+<add references here if relevant, otherwise delete this section> 

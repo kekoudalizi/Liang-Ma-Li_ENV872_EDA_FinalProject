@@ -1,0 +1,88 @@
+---
+title: "Assignment 10: Fianl project"
+author: "Zhiteng Ma"
+output:
+  pdf_document:
+    latex_engine: xelatex
+geometry: margin=2.54cm
+editor_options:
+  chunk_output_type: inline
+---
+
+```{r, message = FALSE}
+#1
+getwd()
+setwd('c:/Users/Zhiteng Ma/Desktop/EDA-Fall2022-main/Data/Raw/')
+library(tidyverse)
+library(lubridate)
+library(rvest)
+mytheme <- theme_classic() +
+  theme(axis.text = element_text(color = "black"), legend.position = "top")
+theme_set(mytheme)
+
+```
+
+# Dataset Information
+>NOTE: Figure 1: https://www.statista.com/statistics/571564/publicly-available-electric-vehicle-chargers-by-country-type/
+Figure 2: http://www.statista.com/statistics/442759/global-sales-of-plugin-hybrid-electric-vehicles-as-a-share-of-evs
+Figure 3: https://www.statista.com/statistics/1234938/road-transportation-nitrogen-oxide-emissions-us/
+
+# Analysis
+## Question: Why are we studying the U.S. new energy vehicle program and U.S. vehicle emissions?
+
+## Answer: To explore why U.S. carbon emissions have declined in recent years. If new energy vehicles are getting better with each passing year, then the increase in new energy vehicles has contributed to the decrease in U.S. carbon emissions. If Annual nitrogen oxide (NOx) emissions from road vehicles are decreasing year by year, it also indicates that the United States is paying attention to vehicle emissions and has adopted more advanced methods to clean up vehicle emissions, which has led to a decrease in vehicle carbon emissions.
+
+
+```{r fetch.and.plot.Asheville.2015.data}
+#1 Number of publicly available electric vehicle chargers (EVSE) in 2021, by major country and type
+
+MZTData <- data.frame(years = c("China", "United States", "South Korea", "Netherlands", "France", "Germany", "United Kingdom","Japan", "Italy", "Norway","Canada", "Sweden", "Spain"), Number_of_EV_chargers  = c(677000, 91775
+, 91634
+, 82876
+, 49795
+, 41813
+, 29231
+, 21150
+, 20224
+, 12608
+, 12314
+, 12454
+, 5607
+))
+print(MZTData)
+
+ggplot(MZTData, aes(x = years, y = Number_of_EV_chargers, fill = 'steelblue', colour = 'blue')) + geom_bar(position = "dodge", stat = "identity", colour = "black") + ggtitle("Number of EV chargers worldwide from 2021") +
+   geom_text(aes(label = Number_of_EV_chargers), vjust = -0.3, colour = "black", position = position_dodge(.9), size = 3) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5)) +
+  scale_fill_brewer(palette="Pastel1")
+
+```
+```{r fetch.and.plot.Asheville.2015.data}
+#2 Plug-in hybrid electric vehicle sales worldwide from 2012 to 2021 (in 1,000 units)
+
+MZTData <- data.frame(years = c("2012", "2013", "2014", "2015", "2016", "2017", "2018","2019", "2020", "2021"), Sales_in_million_units  = c(60.73, 91.65, 134.37, 223.26, 288, 417.14, 642.79, 578.29, 977.95, 1920.58))
+print(MZTData)
+
+ggplot(MZTData, aes(x = years, y = Sales_in_million_units, fill = 'steelblue', colour = 'blue')) + geom_bar(position = "dodge", stat = "identity", colour = "black") + ggtitle("Estimated plug-in electric light vehicle sales worldwide") +
+   geom_text(aes(label = Sales_in_million_units), vjust = -0.3, colour = "black", position = position_dodge(.9), size = 3) +
+  scale_fill_brewer(palette="Pastel1")
+
+```
+
+
+```{r fetch.and.plot.Asheville.2015.data}
+#3 Annual nitrogen oxide (NOx) emissions from road vehicles in the United States from 1970 to 2021
+
+MZTData <- data.frame(years = c("1970", "1975", "1980", "1985", "1990","1991", "1992", "1993", "1994", "1995", "1996", "1997","1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008","2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018","2019", "2020", "2021"), Sales_in_million_units  = c(12624,12061,11493,10932,9592,9449,9306,9162,9019,8876,8733,8792,8619,8371,8394,7774,10337,9671,9004,8338,7992,7646,6941,6206,5701,5870,5540,5210,4879,4441,3663,3495,2852,2805,2522,2239))
+print(MZTData)
+
+ggplot(MZTData, aes(x = years, y = Sales_in_million_units, fill = 'steelblue', colour = 'blue')) + geom_bar(position = "dodge", stat = "identity", colour = "black") + ggtitle("Estimated plug-in electric light vehicle sales worldwide") +
+   geom_text(aes(label = Sales_in_million_units), vjust = -0.3, colour = "black", position = position_dodge(.9), size = 2) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
+
+```
+
+
+# Summary and Conclusions
+
+## Answer: It can be seen through figure1 that the United States ranks second among the countries in the world in terms of new energy vehicles, indicating that the United States attaches great importance to the development of new energy vehicles. This is also a direct result of the reduction of carbon emissions in the US. Figure2 shows that from 2012-2021, the world's new energy vehicles show a trend of year-on-year growth. This also shows the strong development of new energy vehicles in the United States. Figure3 shows that the emission of polluting gases in the exhaust of cars decreases year by year. This shows that the progress of technology has led to the reduction of pollution from vehicle exhaust. It also largely contributes to the reduction of carbon emissions in the United States.
