@@ -1,0 +1,218 @@
+Year,Sector,Emission
+1990,Transportation,1526.434289
+1991,Transportation,1480.303906
+1992,Transportation,1539.881716
+1993,Transportation,1576.887693
+1994,Transportation,1631.84286
+1995,Transportation,1667.019781
+1996,Transportation,1723.249166
+1997,Transportation,1749.849331
+1998,Transportation,1792.295979
+1999,Transportation,1863.292088
+2000,Transportation,1913.55078
+2001,Transportation,1885.434886
+2002,Transportation,1925.980857
+2003,Transportation,1933.326749
+2004,Transportation,1965.852074
+2005,Transportation,1975.495128
+2006,Transportation,1975.865366
+2007,Transportation,1974.426677
+2008,Transportation,1870.90605
+2009,Transportation,1796.295048
+2010,Transportation,1802.276351
+2011,Transportation,1768.59536
+2012,Transportation,1748.912231
+2013,Transportation,1751.515531
+2014,Transportation,1785.407075
+2015,Transportation,1793.399368
+2016,Transportation,1828.045564
+2017,Transportation,1845.16261
+2018,Transportation,1874.726295
+2019,Transportation,1874.291138
+2020,Transportation,1627.618555
+1990,Agriculture,596.7782037
+1991,Agriculture,587.4933791
+1992,Agriculture,588.301071
+1993,Agriculture,616.3677197
+1994,Agriculture,603.4730438
+1995,Agriculture,615.6694674
+1996,Agriculture,622.9079529
+1997,Agriculture,611.3285207
+1998,Agriculture,618.246994
+1999,Agriculture,609.2897439
+2000,Agriculture,594.8543002
+2001,Agriculture,615.5265572
+2002,Agriculture,618.6742482
+2003,Agriculture,618.9622898
+2004,Agriculture,631.722629
+2005,Agriculture,626.2532138
+2006,Agriculture,625.7865013
+2007,Agriculture,642.7207482
+2008,Agriculture,631.0310541
+2009,Agriculture,632.8604701
+2010,Agriculture,641.0292595
+2011,Agriculture,622.7172211
+2012,Agriculture,606.4525784
+2013,Agriculture,645.1572755
+2014,Agriculture,654.1143399
+2015,Agriculture,656.1010386
+2016,Agriculture,643.4202707
+2017,Agriculture,644.3957277
+2018,Agriculture,657.9149823
+2019,Agriculture,663.8956688
+2020,Agriculture,635.1059606
+1990,Electric power industry,1880.548218
+1991,Electric power industry,1874.832994
+1992,Electric power industry,1890.103637
+1993,Electric power industry,1965.574487
+1994,Electric power industry,1990.300202
+1995,Electric power industry,2006.87748
+1996,Electric power industry,2079.434227
+1997,Electric power industry,2144.903577
+1998,Electric power industry,2231.446285
+1999,Electric power industry,2244.837094
+2000,Electric power industry,2351.125685
+2001,Electric power industry,2311.387024
+2002,Electric power industry,2326.759449
+2003,Electric power industry,2357.952283
+2004,Electric power industry,2390.768614
+2005,Electric power industry,2456.73709
+2006,Electric power industry,2401.231384
+2007,Electric power industry,2467.226239
+2008,Electric power industry,2414.114946
+2009,Electric power industry,2198.273322
+2010,Electric power industry,2313.956993
+2011,Electric power industry,2211.767283
+2012,Electric power industry,2073.78562
+2013,Electric power industry,2092.343184
+2014,Electric power industry,2092.5328
+2015,Electric power industry,1952.725753
+2016,Electric power industry,1860.497992
+2017,Electric power industry,1780.55203
+2018,Electric power industry,1799.826648
+2019,Electric power industry,1650.961498
+2020,Electric power industry,1482.182865
+1990,Industry,1652.361348
+1991,Industry,1625.461259
+1992,Industry,1662.343992
+1993,Industry,1631.906633
+1994,Industry,1657.477536
+1995,Industry,1675.133984
+1996,Industry,1705.045256
+1997,Industry,1705.17277
+1998,Industry,1677.755099
+1999,Industry,1627.052157
+2000,Industry,1616.991263
+2001,Industry,1569.909847
+2002,Industry,1550.9615
+2003,Industry,1529.061153
+2004,Industry,1577.981113
+2005,Industry,1536.17642
+2006,Industry,1570.640402
+2007,Industry,1560.386569
+2008,Industry,1501.553646
+2009,Industry,1345.926535
+2010,Industry,1438.77876
+2011,Industry,1443.335476
+2012,Industry,1440.040968
+2013,Industry,1489.536433
+2014,Industry,1474.546661
+2015,Industry,1464.017871
+2016,Industry,1424.355203
+2017,Industry,1446.687191
+2018,Industry,1507.64746
+2019,Industry,1521.665941
+2020,Industry,1426.194536
+1990,Commercial,427.1097945
+1991,Commercial,434.3210719
+1992,Commercial,429.9390699
+1993,Commercial,423.3667576
+1994,Commercial,426.5831602
+1995,Commercial,425.6963637
+1996,Commercial,433.3072282
+1997,Commercial,425.7958774
+1998,Commercial,400.5410056
+1999,Commercial,396.9265023
+2000,Commercial,411.1952894
+2001,Commercial,400.2090783
+2002,Commercial,401.730691
+2003,Commercial,417.9651174
+2004,Commercial,415.7778277
+2005,Commercial,405.4424321
+2006,Commercial,391.9017623
+2007,Commercial,405.856004
+2008,Commercial,413.1665119
+2009,Commercial,416.9037851
+2010,Commercial,419.2903162
+2011,Commercial,415.0676612
+2012,Commercial,396.0250101
+2013,Commercial,419.3419598
+2014,Commercial,429.6005258
+2015,Commercial,442.0847198
+2016,Commercial,426.9066423
+2017,Commercial,428.48605
+2018,Commercial,444.2334991
+2019,Commercial,452.1397884
+2020,Commercial,425.3125143
+1990,Residential,345.0707892
+1991,Residential,354.6897497
+1992,Residential,361.2220248
+1993,Residential,372.6124987
+1994,Residential,363.2601466
+1995,Residential,367.5235211
+1996,Residential,399.4548027
+1997,Residential,380.8286588
+1998,Residential,346.8732536
+1999,Residential,366.6844584
+2000,Residential,387.9925386
+2001,Residential,378.0768838
+2002,Residential,375.2866689
+2003,Residential,393.7289434
+2004,Residential,381.8524349
+2005,Residential,371.0155287
+2006,Residential,334.3094
+2007,Residential,355.2548552
+2008,Residential,363.9069816
+2009,Residential,354.5451475
+2010,Residential,355.5391842
+2011,Residential,349.0938093
+2012,Residential,306.9431239
+2013,Residential,357.7310858
+2014,Residential,378.2769923
+2015,Residential,351.469522
+2016,Residential,327.8126346
+2017,Residential,329.8809699
+2018,Residential,377.3688578
+2019,Residential,384.1781584
+2020,Residential,361.9522568
+1990,Agriculture,596.7782037
+1991,Agriculture,587.4933791
+1992,Agriculture,588.301071
+1993,Agriculture,616.3677197
+1994,Agriculture,603.4730438
+1995,Agriculture,615.6694674
+1996,Agriculture,622.9079529
+1997,Agriculture,611.3285207
+1998,Agriculture,618.246994
+1999,Agriculture,609.2897439
+2000,Agriculture,594.8543002
+2001,Agriculture,615.5265572
+2002,Agriculture,618.6742482
+2003,Agriculture,618.9622898
+2004,Agriculture,631.722629
+2005,Agriculture,626.2532138
+2006,Agriculture,625.7865013
+2007,Agriculture,642.7207482
+2008,Agriculture,631.0310541
+2009,Agriculture,632.8604701
+2010,Agriculture,641.0292595
+2011,Agriculture,622.7172211
+2012,Agriculture,606.4525784
+2013,Agriculture,645.1572755
+2014,Agriculture,654.1143399
+2015,Agriculture,656.1010386
+2016,Agriculture,643.4202707
+2017,Agriculture,644.3957277
+2018,Agriculture,657.9149823
+2019,Agriculture,663.8956688
+2020,Agriculture,635.1059606
