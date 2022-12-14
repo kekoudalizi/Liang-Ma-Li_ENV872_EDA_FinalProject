@@ -1,0 +1,403 @@
+---
+output: 
+  pdf_document:
+    keep_tex: yes
+    fig_caption: yes
+    number_sections: yes
+geometry: margin=2.54cm
+title: "A study on the reduction of carbon emissions in the United States after 2006"
+subtitle: "https://github.com/kekoudalizi/Liang-Ma-Li_ENV872_EDA_FinalProject.git"
+author: "Jiawei Liang, Zhiteng Ma, Dili Li"
+fontsize: 12pt
+mainfont: Times New Roman
+
+---
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+\newpage
+\tableofcontents 
+\newpage
+
+\listoffigures 
+
+Figure 1 Total Carbon Emissions in U.S
+
+
+Figure 2 Carbon emissions per capita in U.S
+
+
+Figure3 Total Carbon Emissions in the United States
+
+
+Figure 4 Electric, Industry, Transport carbon emissions as a percentage of total emissions
+
+
+Figure5 Type of Energy use for electricity in the United States
+
+
+Figure6  Natural gas use in Electricity the United States
+
+
+Figure7  Emission of three major sources in Electricity in the United States
+
+
+Figure 8: Number of publicly available electric vehicle chargers (EVSE) in 2021, by major country and type
+
+
+Figure 9: Plug-in hybrid electric vehicle sales worldwide from 2012 to 2021 (in 1,000 units)
+
+
+Figure 10: Annual nitrogen oxide (NOx) emissions from road vehicles in the United States from 1990 to 2021
+
+
+Figure 11: Urbanization Rate in the U.S
+
+
+Figure 12: Population in the U.S
+
+
+\newpage
+
+```{r setup, include=FALSE}
+#1
+library(tidyverse)
+library(lubridate)
+library(rvest)
+library(tibbletime)
+library(dplyr)
+library(cowplot)
+library(ggplot2)
+library(trend)
+library(reshape2)
+library(agricolae)
+library(formatR)
+mytheme <- theme_classic() +
+  theme(axis.text = element_text(color = "black"), legend.position = "top")
+theme_set(mytheme)
+
+getwd()
+setwd('c:/Users/Zhiteng Ma/Desktop/Processed&Raw Data/Raw data/')
+
+EV_chargers_worldwide <- read.csv('EV_chargers_worldwide_1.csv',stringsAsFactors =TRUE)
+
+sales <- read.csv('electric_light_vehicle_sales.csv',stringsAsFactors =TRUE)
+emissions <- read.csv('Annual_nitrogen_oxide (NOx)_emissions.csv',stringsAsFactors =TRUE)
+
+# Load your datasets
+Carbon_Emission <- read.csv('Carbon_Emission_bysector.csv',stringsAsFactors = TRUE)
+Electricpower_emission <- select(Carbon_Emission, Year, Electric.power.industry,Gross.total)
+Electricpower_emission_percent <- mutate(Electricpower_emission, Percent_electric = (Electric.power.industry/Gross.total)*100)
+write.csv(Electricpower_emission_percent, file = "c:/Users/Zhiteng Ma/Desktop/Processed&Raw Data/Processed data/Electricpower_emission_percent.csv", row.names=TRUE)
+Transportation_emission <- select(Carbon_Emission, Year, Transportation,Gross.total)
+Transportation_emission_percent <- mutate(Transportation_emission, Percent_Transportation = (Transportation/Gross.total)*100)
+write.csv(Transportation_emission_percent, file = "c:/Users/Zhiteng Ma/Desktop/Processed&Raw Data/Processed data/Transportation_emission_percent.csv", row.names=TRUE)
+Industry_emission <- select(Carbon_Emission, Year, Industry,Gross.total)
+Industry_emission_percent <- mutate(Industry_emission, Percent_Industry = (Industry/Gross.total)*100)
+write.csv(Industry_emission_percent, file = "c:/Users/Zhiteng Ma/Desktop/Processed&Raw Data/Processed data/Industry_emission_percent.csv", row.names=TRUE)
+Major_emissions <- cbind(Industry_emission_percent, Transportation_emission_percent, Electricpower_emission_percent)
+Major_emissions_percent <- select(Major_emissions, Percent_electric,Percent_Transportation, Percent_Industry)
+Major_emissions_percent1 <- mutate(Major_emissions_percent, Carbon_Emission$Year)
+write.csv(Major_emissions_percent1 , file = "c:/Users/Zhiteng Ma/Desktop/Processed&Raw Data/Processed data/Major_emissions_percent1 ", row.names=TRUE)
+natural_gas_production <- read.csv('natural_gas_productionus.csv', stringsAsFactors = TRUE)
+US_Carbon_emission <- read.csv('united-states-carbon-co2-emissions.csv', stringsAsFactors = TRUE)
+Energy_consumption_sector<- read.csv('primary-energy-consumption.csv', stringsAsFactors = TRUE)
+Electricpowercarbonemissions<- read.csv('emissionfueltype.csv', stringsAsFactors = TRUE)
+electricitygeneration<- read.csv('electricity-generation.csv', stringsAsFactors = FALSE)
+electricitygeneration$Year <-as.numeric(as.character(electricitygeneration$Year)) 
+Coal_total <- read.csv('Carbon_totalemission_2006.csv', stringsAsFactors = TRUE)
+Sector_emission <- read.csv('Sector_emission.csv', stringsAsFactors = TRUE)
+Urbanization_rate <- read.csv('urbanization-in-US.csv', stringsAsFactors = TRUE) 
+US_population <- read.csv('USpopulation.csv',header = TRUE, stringsAsFactors = TRUE) 
+colnames(US_population) <- c('Year','population') 
+
+```
+
+# Rationale and Research Questions
+Greenhouse gas emissions (GHG), especially carbon dioxide (CO2) emissions, are considered to be the main causes of global warming. The continuous increase of carbon emissions will cause global warming, melting glaciers, rising sea levels, and submerging continents. At the same time, it will cause: abnormal climate, increased ocean storms; land drought, increased desertification area; increased pests and diseases on the earth, etc. Therefore, carbon emission reduction is urgent and has become the common action of the whole world. Scientists predict that if the increase of the earth's surface temperature continues at the current rate, the global temperature will rise by 2-4°C by 2050, and the icebergs at the north and south poles will melt substantially, resulting in a significant rise in sea level. Some island countries and coastal cities will Submerged in water, including several famous international cities: New York, Shanghai, Tokyo and Sydney.
+
+In order to prevent global warming several countries have signed the Kyoto Protocol and promised to decrease their emission levels, including U.S.A. By counting changes in carbon dioxide emissions in the United States from 1990 to 2020, we found that before 2006, carbon emissions in the United States showed an upward trend, and after 2006, carbon emissions in the United States showed a downward trend. Thus, we have a question about the change of  around 2006. There are three reasons that could explain the change of carbon emissions.
+
+\newpage
+
+# Dataset Information
+
+Figure 1 - Figure 7: Five datasets in total were used for this analysis, all provided by United States Environmental Protection Agency and statista between 1990 and 2020. Data collection was organized through whole America. S
+
+NOTE: Figure 8: https://www.statista.com/statistics/571564/publicly-available-electric-vehicle-chargers-by-country-type/
+
+Figure 9: http://www.statista.com/statistics/442759/global-sales-of-plugin-hybrid-electric-vehicles-as-a-share-of-evs
+
+Figure 10: https://www.statista.com/statistics/1234938/road-transportation-nitrogen-oxide-emissions-us/
+
+Urbanization rate changes 
+
+Figure 11: https://www.statista.com/statistics/269967/urbanization-in-the-united-states/
+
+Figure 12: https://www.statista.com/statistics/183457/united-states-resident-population/
+
+\newpage
+
+# Exploratory Analysis 
+
+According to the classification of uses, US carbon emissions include six aspects: transportation, electricity production, industry, agriculture, commerce, residents, and land. Among them, electricity production has been the leader in the history of greenhouse gas emissions in the United States. However, as shown in the figure below, carbon emissions from the power production sector have continued to decline since 2007, from 2.466 billion tons in 2007 to 1.648 billion tons in 2019, becoming the main driving force for carbon emission reduction in the United States, contributing 50% of carbon emissions in the United States. More than 90% of the carbon emission reduction since the peak. However, from 1990 to 2020, carbon emissions from the transportation sector rose instead of falling, rising from 1.526 billion tons in 1990 to 1.875 billion tons in 2019, replacing the power production sector as the largest carbon-emitting sector in the United States since 2017.
+
+```{r}
+ggplot() +
+  theme_bw() +
+  geom_segment(data = US_Carbon_emission, 
+               aes(x =  Date, 
+                   y = Total, 
+                   xend = Date, 
+                   yend = -30), 
+               size = 4, 
+               colour =  " orange")+
+      scale_y_continuous(breaks=c(1e+06,2e+06,3e+06,4e+06,5e+06,6e+06))+
+  scale_x_continuous(breaks=seq(1991,2020,2) )+
+  labs(title = "Figure 1 Total Carbon Emissions in U.S")+
+       xlab("Year")+
+       ylab("Total Carbon Emissions(Metric Tons)")
+```
+
+\begin{center}
+Figure 1: Total Carbon Emissions in U.S
+\end{center}
+
+```{r}
+carbon_emissions_per_capita <- ggplot(US_Carbon_emission) +
+  geom_line(aes(x = Date, y = Per.Capita),colour="blue")+
+  scale_x_continuous(breaks=seq(1990,2021,2) )+
+   xlab("Year")+
+       ylab("Emission in Ton")+
+  labs(title = "Figure 2 Carbon emissions per capita in U.S")
+print(carbon_emissions_per_capita)
+
+```
+
+\begin{center}
+Figure 2: Carbon emissions per capita in U.S
+\end{center}
+
+```{r}
+ggplot(Sector_emission,aes(x=Year, y=Emission,fill=Sector))+
+  scale_x_continuous(breaks=seq(1990,2020,2) )+
+  labs(title = "Figure3 Total Carbon Emissions in the United States")+
+       xlab("Year")+
+       ylab("Total Carbon Emissions(Metric Tons)")+
+ geom_bar(stat="identity",position = 'stack')
+
+```
+
+\begin{center}
+Figure 3: Total Carbon Emissions in the United States
+\end{center}
+
+
+\newpage
+
+# Analysis
+
+
+
+## Idea 1: discusses that the reduction of carbon emissions in the United States is mainly due to the reduction of carbon emissions from electricity.
+
+From the figure3, we can know that electricity, transportation and industrial emissions are the most important sources of carbon emissions. Figure4 plots the percent of emissions from electricity, transportation, and industry over the years. We found that the emissions from industry remained basically the same, the carbon emissions from transportation increased, but the carbon emissions from electricity decreased. Therefore, our first idea mainly discusses that the reduction of carbon emissions in the United States is mainly due to the reduction of carbon emissions from electricity.
+
+```{r}
+ggplot()+geom_line(data = Major_emissions_percent1,aes(x = Carbon_Emission$Year,y = Percent_electric,colour = "electric"),size=1)+
+  geom_point(data = Major_emissions_percent1,aes(x = Carbon_Emission$Year,y = Percent_electric,colour = "electric"),size=2)+
+  ylim(0,50)+
+  geom_line(data = Major_emissions_percent1,aes(x = Carbon_Emission$Year,y = Percent_Transportation,colour ="Transportation"),size=1) + 
+  geom_point(data = Major_emissions_percent1,aes(x = Carbon_Emission$Year,y = Percent_Transportation,colour = "Transportation"),size=2)+
+  ylim(0,50)+
+  geom_line(data = Major_emissions_percent1,aes(x = Carbon_Emission$Year,y = Percent_Industry,colour ="Industry"),size=1) + 
+  geom_point(data = Major_emissions_percent1,aes(x = Carbon_Emission$Year,y = Percent_Industry,colour = "Industry"),size=2)+
+  scale_colour_manual("",values = c("electric" = "red","Transportation" = "green","Industry"="blue"))+
+  labs(title = "Figure 4 Electric, Industry, Transport carbon emissions as a percentage of total emissions")+
+  xlab("Year")+
+  ylab("Percent")
+ 
+```
+
+\begin{center}
+Figure 4: Electric, Industry, Transport carbon emissions as a percentage of total emissions
+\end{center}
+
+The figure5 shows the classification and proportion of energy required for power generation in the United States. We can see that since 2006, the proportion of natural gas and sustainable energy has increased, while the proportion of coal use has decreased. Here, we argue that it is the reduction in the use of coal and the increase in sustainable energy that has led to the reduction in carbon emissions from electricity in the United States. Figure 6 better explains the growing use of natural gas for electricity in the United States.
+
+```{r}
+
+ggplot(electricitygeneration,aes(x=Year, y=Generation,fill=Type))+
+  xlab("Year")+
+       ylab("  Consumption in quadrillion Btu")+
+  labs(title = "Figure5 Type of Energy use for electricity in the United States")+
+ geom_area(stat="identity",position = 'stack')
+
+```
+
+\begin{center}
+Figure 5: Type of Energy use for electricity in the United States
+\end{center}
+
+```{r}
+Gas_production <- ggplot(natural_gas_production) +
+  geom_line(aes(x = Year, y = Production))+
+  scale_x_continuous(breaks=seq(1998,2021,2) )+
+   xlab("Year")+
+       ylab(" In tens of billions cubic")+
+  labs(title = "Figure6  Natural gas use in Electricity the United States")
+print(Gas_production)
+
+```
+
+\begin{center}
+Figure 6: Natural gas use in Electricity the United States
+\end{center}
+
+By consulting the information, we can learn that in 2006, the United States enacted a law requiring power companies to use natural gas and renewable energy to generate electricity. Moreover, the United States is very rich in shale gas resources. With the advancement of technology, breakthroughs have been made in the development of shale gas. Especially after 2006, the production of shale gas in the United States has grown rapidly. The shale energy revolution in the United States has made natural gas power generation replace coal gas power generation on a large scale, thereby greatly reducing carbon emissions from power generation. From 2006 to 2020, in the primary energy consumption structure of the United States, the proportion of coal dropped from 22.61% to 9.89%, and the proportion of natural gas increased from 22.40% to 33.99%. The continuous increase in the proportion of renewable energy further optimizes the energy structure.
+We plotted the carbon emissions of coal, natural gas and oil in electricity generation on Figure7. It can be seen from the figure that after 2006, coal was reduced on a large scale, and the sum of the three carbon emissions also decreased accordingly. We also use the ANOVA model to verify our ideas. By simulating the total carbon emissions of power generation after 2006 and the total emissions of coal power generation after 2006, we can know that the p value is infinitely close to zero, indicating that there is a great relationship between the two.
+
+```{r}
+ggplot(Electricpowercarbonemissions,aes(x=Year, y=Emission,fill=Type))+
+  scale_x_continuous(breaks=seq(1990,2021,2) )+
+   xlab("Year")+
+       ylab(" In tens of billions cubic")+
+  labs(title = "Figure7  Emission of three major sources in Electricity in the United States")+
+ geom_bar(stat="identity",position = 'stack')
+
+```
+
+\begin{center}
+Figure 7: Emission of three major sources in Electricity in the United States
+\end{center}
+
+```{r}
+
+Coal_total.anova.model <- aov(data = Coal_total, Coal_emission ~ Total_emission)
+summary(Coal_total.anova.model)
+Coal_total.anova.model2 <- lm(data = Coal_total, Coal_emission ~ Total_emission)
+summary(Coal_total.anova.model2)
+plot(Coal_total.anova.model2)
+```
+
+
+\newpage
+
+## Question 2: Why are we studying the U.S. new energy vehicle program and U.S. vehicle emissions?
+
+To explore why U.S. carbon emissions have declined in recent years. If new energy vehicles are getting better with each passing year, then the increase in new energy vehicles has contributed to the decrease in U.S. carbon emissions. If Annual nitrogen oxide (NOx) emissions from road vehicles are decreasing year by year, it also indicates that the United States is paying attention to vehicle emissions and has adopted more advanced methods to clean up vehicle emissions, which has led to a decrease in vehicle carbon emissions.
+
+
+```{r}
+#1 Number of publicly available electric vehicle chargers (EVSE) in 2021, by major country and type
+
+ggplot(EV_chargers_worldwide, aes(x = Country, y = Number_of_EV_chargers, fill = 'steelblue', colour = 'blue')) + geom_bar(position = "dodge", stat = "identity", colour = "black") + ggtitle("Number of EV chargers worldwide from 2021(in_1000_units)") +
+   geom_text(aes(label = Number_of_EV_chargers), vjust = -0.3, colour = "black", position = position_dodge(.9), size = 3) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
+  scale_fill_brewer(palette="Pastel1")
+
+```
+
+\begin{center}
+Figure 8: Number of publicly available electric vehicle chargers (EVSE) in 2021, by major country and type
+\end{center}
+
+```{r}
+#2 Plug-in hybrid electric vehicle sales worldwide from 2012 to 2021 (in 1,000 units)
+
+ggplot(sales, aes(x = years, y = Sales_in_million_units, fill = 'steelblue', colour = 'blue') ) +   ggtitle("Estimated plug-in electric light vehicle sales worldwide") + geom_bar(position = "dodge", stat = "identity", colour = "black") +
+   geom_text(aes(label = Sales_in_million_units), vjust = -0.3, colour = "black", position = position_dodge(.9), size = 3) +
+  scale_fill_brewer(palette="Pastel1")
+
+mk.test(sales$Sales_in_million_units, continuity = TRUE)
+
+```
+
+\begin{center}
+Figure 9: Plug-in hybrid electric vehicle sales worldwide from 2012 to 2021 (in 1,000 units)
+\end{center}
+
+
+The z-value is 3.7566, indicating an increasing trend. p-value < 0.01, We reject the null hypothesis, indicating that there is a significant trend change in the data. On balance, estimated plug-in electric light vehicle sales worldwide is trending upward.
+
+
+```{r}
+#3 Annual nitrogen oxide (NOx) emissions from road vehicles in the United States from 1990 to 2021
+
+
+ggplot(emissions, aes(x = years, y = Sales_in_million_units, fill = 'steelblue', colour = 'blue')) + geom_bar(position = "dodge", stat = "identity", colour = "black") + ggtitle("Annual nitrogen oxide (NOx) emissions") +
+   geom_text(aes(label = Sales_in_million_units), vjust = -0.3, colour = "black", position = position_dodge(.9), size = 2) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
+
+mk.test(emissions$Sales_in_million_units, continuity = TRUE)
+
+```
+
+\begin{center}
+Figure 10: Annual nitrogen oxide (NOx) emissions from road vehicles in the United States from 1990 to 2021
+\end{center}
+
+
+The z-value is -6.8596, indicating an decreasing trend. p-value < 0.01, We reject the null hypothesis, indicating that there is a significant trend change in the data. On balance, Annual nitrogen oxide (NOx) emissions is trending downward.
+
+\newpage
+
+## Question 3: how urbaniaztion impacts co2 emission.
+
+According to the previous figures, the total carbon dioxides emission had a decrease trend since  2006, however, the carbon dioxides emission per capita had a decrease trend. Urbanization might be a potential driver for it. To verify this hypothesis, we find the US population data by year and urbaniation rate data by year.
+
+```{r}
+plot1 <- ggplot(data = Urbanization_rate, 
+               aes(x =  Year, 
+                   y = as.numeric(Urban), group = 1)) +
+  
+  geom_line()+
+  labs(title = "Figure11 Urbanization Rate in the U.S")+
+       xlab("Year")+
+       ylab("Urbanization Rate (Pencentage)")+
+  theme(axis.text.x = element_text(angle = 90))
+print(plot1)
+
+mk.test(Urbanization_rate$Urban, continuity = TRUE)
+```
+
+\begin{center}
+Figure 11: Urbanization Rate in the U.S
+\end{center}
+
+
+The z-value is 3.93556, indicating an increasing trend. p-value < 0.01, It indicates that there is a significant trend change in urbannization rate. 
+
+
+```{r pressure, echo=FALSE}
+plot2 <- ggplot(data = US_population, 
+               aes(x =  Year, 
+                   y = as.numeric(population), group = 1)) +
+  
+  geom_line()+
+  labs(title = "Population in the U.S")+
+       xlab("Year")+
+       ylab("US_population per 1000")+
+  theme(axis.text.x = element_text(angle = 90))
+print(plot2)
+US_population$population <- as.numeric(US_population$population)
+mk.test(US_population$population, continuity = TRUE)
+```
+
+\begin{center}
+Figure 12: Population in the U.S
+\end{center}
+
+
+The z-value is 9.199, indicating an increasing trend. p-value < 0.01, It indicates that there is a significant trend change in population. 
+
+\newpage
+
+# Summary and Conclusions
+
+Overall, these results suggest that reducing using of coal plays an important role in reducing carbon emissions in U.S. After the ANOVA test, it is found that the p value is very close to zero, indicating that the decline in coal carbon emissions is closely related to the decline in total carbon emissions. It further proves that in terms of electricity, the reduction in coal use is an important reason for the reduction in total carbon emissions.
+
+It can be seen through figure8 that the United States ranks second among the countries in the world in terms of new energy vehicles, indicating that the United States attaches great importance to the development of new energy vehicles. This is also a direct result of the reduction of carbon emissions in the US. Figure9 shows that from 2012-2021, the world's new energy vehicles show a trend of year-on-year growth. This also shows the strong development of new energy vehicles in the United States. Figure10 shows that the emission of polluting gases in the exhaust of cars decreases year by year. This shows that the progress of technology has led to the reduction of pollution from vehicle exhaust. It also largely contributes to the reduction of carbon emissions in the United States.
+
+Accordingf to plot 12, the population has an increase trend in the US. However the slpoe of population increasing is lower than the slope of total carbon dioxides emission decreasing. Total carbon dioxides is calculated by  total carbon dioxides per capita * population, total carbon dioxides have a derease trend after 2006, which means the decrease of  total carbon dioxides per capita could offset the impacts from population increase since 2006.
